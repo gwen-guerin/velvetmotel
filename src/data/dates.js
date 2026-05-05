@@ -15,7 +15,7 @@ export const dates = [
   {
     id: 1,
     date: "2026-06-06",
-    city: "Thusy (74)",
+    city: "Thusy (74) - 11H",
     venue: "Rassemblement de véhicules anciens",
     type: "free",
   },
