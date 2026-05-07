@@ -126,3 +126,55 @@
 .animate-scroll-bounce {
   animation: scrollBounce 2.2s ease-in-out infinite;
 }
+
+/* ─── Map Leaflet overrides ──────────────────────────────────────────────── */
+@keyframes vm-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(255, 36, 66, 0.6), 0 0 14px 3px rgba(255, 36, 66, 0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(255, 36, 66, 0),   0 0 14px 3px rgba(255, 36, 66, 0.4); }
+  100% { box-shadow: 0 0 0 0   rgba(255, 36, 66, 0),   0 0 14px 3px rgba(255, 36, 66, 0.4); }
+}
+
+.vm-marker-next {
+  animation: vm-pulse 1.8s ease-out infinite;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #111;
+  border: 1px solid rgba(255, 36, 66, 0.35);
+  border-radius: 0 !important;
+  box-shadow: 0 4px 24px rgba(255, 36, 66, 0.15);
+  color: #f0e6d3;
+}
+
+.leaflet-popup-tip-container .leaflet-popup-tip {
+  background: #111;
+}
+
+.leaflet-popup-close-button {
+  color: rgba(255, 36, 66, 0.6) !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #ff2442 !important;
+}
+
+.leaflet-control-zoom a {
+  background: #111 !important;
+  color: rgba(240, 230, 211, 0.5) !important;
+  border-color: rgba(255, 36, 66, 0.2) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #1a1a1a !important;
+  color: #ff2442 !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 10, 10, 0.7) !important;
+  color: rgba(240, 230, 211, 0.2) !important;
+  font-size: 9px !important;
+}
+
+.leaflet-control-attribution a {
+  color: rgba(255, 36, 66, 0.4) !important;
+}

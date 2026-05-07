@@ -1,4 +1,7 @@
 import { motion } from 'framer-motion'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { dates } from '../data/dates'
 
 // ─── Helper reveal ────────────────────────────────────────────────────────────
@@ -112,6 +115,88 @@ function EmptyState() {
   )
 }
 
+// ─── Carte des dates ──────────────────────────────────────────────────────────
+function makeMarkerIcon(isNext) {
+  const size  = isNext ? 22 : 14
+  const color = isNext ? '#ff2442' : '#ff6b8a'
+  const cls   = isNext ? 'vm-marker-next' : ''
+
+  return L.divIcon({
+    html: `<div class="${cls}" style="
+      width:${size}px;
+      height:${size}px;
+      background:${color};
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,${isNext ? 0.45 : 0.2});
+      box-shadow:0 0 ${isNext ? 14 : 7}px ${isNext ? 3 : 1}px ${color}88;
+    "></div>`,
+    className: '',
+    iconSize:   [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2 + 6)],
+  })
+}
+
+function DatesMap({ concerts }) {
+  const today    = new Date()
+  const mappable = concerts.filter(c => c.lat != null && c.lng != null)
+  if (mappable.length === 0) return null
+
+  const sorted = [...mappable].sort((a, b) => new Date(a.date) - new Date(b.date))
+  const next   = sorted.find(c => new Date(c.date) >= today) ?? sorted[0]
+
+  return (
+    <Reveal>
+      <div className="mt-12 mb-0">
+        {/* Titre section */}
+        <div className="max-w-4xl mx-auto px-6 mb-6">
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-1 bg-white/[0.06]" />
+            <p className="font-condensed text-xs tracking-[0.4em] text-cream/30">SUR LA CARTE</p>
+            <div className="h-px flex-1 bg-white/[0.06]" />
+          </div>
+        </div>
+
+        {/* Carte */}
+        <div style={{ height: '420px' }} className="w-full">
+          <MapContainer
+            center={[next.lat, next.lng]}
+            zoom={12}
+            scrollWheelZoom={false}
+            style={{ height: '100%', width: '100%' }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              subdomains="abcd"
+              maxZoom={19}
+            />
+            {mappable.map(c => (
+              <Marker
+                key={c.id}
+                position={[c.lat, c.lng]}
+                icon={makeMarkerIcon(c.id === next.id)}
+              >
+                <Popup>
+                  <p style={{ margin: '0 0 2px', fontFamily: 'inherit', fontWeight: 700, color: '#ff2442', fontSize: '13px', letterSpacing: '0.1em' }}>
+                    {c.city.toUpperCase()}
+                  </p>
+                  <p style={{ margin: '0 0 2px', fontSize: '12px', color: 'rgba(240,230,211,0.6)' }}>
+                    {c.venue}
+                  </p>
+                  <p style={{ margin: 0, fontSize: '11px', color: 'rgba(240,230,211,0.35)' }}>
+                    {new Date(c.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </p>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
+      </div>
+    </Reveal>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // PAGE DATES
 // Éditez src/data/dates.js pour gérer les concerts.
@@ -138,7 +223,7 @@ export default function Dates() {
       </div>
 
       {/* Liste ou état vide */}
-      <section className="max-w-4xl mx-auto px-6 pb-28">
+      <section className="max-w-4xl mx-auto px-6 pb-16">
         {dates.length === 0 ? (
           <EmptyState />
         ) : (
@@ -149,6 +234,13 @@ export default function Dates() {
           </div>
         )}
       </section>
+
+      {/* Carte */}
+      {dates.length > 0 && (
+        <section className="pb-28">
+          <DatesMap concerts={dates} />
+        </section>
+      )}
     </>
   )
 }

@@ -7,6 +7,7 @@
 //   venue     : nom de la salle
 //   type      : "free" (Entrée libre) | "ticketed" (Billetterie)
 //   ticketUrl : URL de billetterie (uniquement si type === "ticketed")
+//   lat / lng : coordonnées GPS pour la carte (optionnel)
 //
 // Pour afficher le message "Aucune date", laissez le tableau vide : []
 // ─────────────────────────────────────────────────────────────────────────────
@@ -18,6 +19,8 @@ export const dates = [
     city: "Thusy (74) - 11H",
     venue: "Rassemblement de véhicules anciens",
     type: "free",
+    lat: 45.947,
+    lng: 5.9491,
   },
   {
     id: 2,
@@ -25,6 +28,8 @@ export const dates = [
     city: "Poisy (74)",
     venue: "Fête de la musique",
     type: "free",
+    lat: 45.9218,
+    lng: 6.0641,
   },
   {
     id: 3,
@@ -32,6 +37,8 @@ export const dates = [
     city: "Groisy (74)",
     venue: "Fête de la musique",
     type: "free",
+    lat: 46.0165,
+    lng: 6.1709,
   },
   {
     id: 4,
@@ -39,5 +46,7 @@ export const dates = [
     city: "Thusy (74)",
     venue: "Fête de la musique",
     type: "free",
+    lat: 45.947,
+    lng: 5.9491,
   },
 ];
