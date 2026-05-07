@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
@@ -243,9 +244,22 @@ function DatesMap({ concerts, selection, markerRefs }) {
 // PAGE DATES
 // ════════════════════════════════════════════════════════════════════════════
 export default function Dates() {
-  const [selection, setSelection]   = useState(null)
+  const location                    = useLocation()
+  const incomingId                  = useRef(location.state?.activeId ?? null)
+  const [selection, setSelection]   = useState(
+    incomingId.current ? { id: incomingId.current, t: Date.now() } : null
+  )
   const mapSectionRef               = useRef(null)
   const markerRefs                  = useRef({})
+
+  // Quand on arrive depuis Home avec un activeId, scroller vers la carte
+  useEffect(() => {
+    if (!incomingId.current) return
+    const timer = setTimeout(() => {
+      mapSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 350)
+    return () => clearTimeout(timer)
+  }, [])
 
   function handleDateClick(id) {
     setSelection({ id, t: Date.now() })

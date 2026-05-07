@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { members } from "../data/members";
 import { dates } from "../data/dates";
@@ -300,7 +300,12 @@ function InfluencesSection() {
 // ════════════════════════════════════════════════════════════════════════════
 function DatesPreview() {
   const upcoming = dates.slice(0, 3);
+  const navigate = useNavigate();
   if (upcoming.length === 0) return null;
+
+  function goToMap(id) {
+    navigate("/dates", { state: { activeId: id } });
+  }
 
   return (
     <section className="py-24 px-6 bg-motel-dark">
@@ -321,7 +326,10 @@ function DatesPreview() {
 
             return (
               <Reveal key={concert.id} delay={i * 0.1}>
-                <div className="group flex items-center gap-5 sm:gap-8 border border-white/[0.06] hover:border-neon-red/35 px-5 sm:px-8 py-5 transition-all duration-300 hover:bg-neon-red/[0.025]">
+                <div
+                  onClick={() => goToMap(concert.id)}
+                  className="group flex items-center gap-5 sm:gap-8 border border-white/[0.06] hover:border-neon-red/35 px-5 sm:px-8 py-5 transition-all duration-300 hover:bg-neon-red/[0.025] cursor-pointer select-none"
+                >
                   {/* Date chiffrée */}
                   <div className="text-center min-w-[52px]">
                     <p
@@ -360,6 +368,7 @@ function DatesPreview() {
                       href={concert.ticketUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="font-condensed text-[0.7rem] tracking-[0.2em] bg-neon-red text-motel-black px-3 py-1.5 hover:bg-neon-pink transition-colors duration-200 shrink-0"
                     >
                       TICKETS
