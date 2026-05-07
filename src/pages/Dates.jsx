@@ -1,4 +1,8 @@
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { dates } from '../data/dates'
 
 // ─── Helper reveal ────────────────────────────────────────────────────────────
@@ -17,7 +21,7 @@ function Reveal({ children, delay = 0, className = '' }) {
 }
 
 // ─── Un concert ───────────────────────────────────────────────────────────────
-function DateItem({ concert, index }) {
+function DateItem({ concert, index, isActive, onClick }) {
   const d       = new Date(concert.date)
   const day     = d.toLocaleDateString('fr-FR', { day:     '2-digit' })
   const month   = d.toLocaleDateString('fr-FR', { month:   'long'    })
@@ -26,8 +30,11 @@ function DateItem({ concert, index }) {
 
   return (
     <Reveal delay={index * 0.09}>
-      <div className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 border-b border-white/[0.06] py-10 px-2 hover:px-4 transition-all duration-300">
-
+      <div
+        onClick={onClick}
+        className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 border-b border-white/[0.06] py-10 px-2 hover:px-4 transition-all duration-300 cursor-pointer select-none"
+        style={isActive ? { paddingLeft: '1rem', borderColor: 'rgba(255,36,66,0.25)' } : {}}
+      >
         {/* Bloc date — chiffre géant */}
         <div className="flex items-end gap-3 min-w-[180px]">
           <span
@@ -54,7 +61,10 @@ function DateItem({ concert, index }) {
         <div className="flex-1 min-w-0">
           <p
             className="font-condensed tracking-widest text-cream group-hover:text-neon-pink transition-colors duration-300 truncate"
-            style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)' }}
+            style={{
+              fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
+              color: isActive ? 'var(--neon-pink)' : undefined,
+            }}
           >
             {concert.city.toUpperCase()}
           </p>
@@ -64,8 +74,13 @@ function DateItem({ concert, index }) {
           </p>
         </div>
 
-        {/* Badge entrée / tickets */}
-        <div className="shrink-0">
+        {/* Badge entrée / tickets + hint carte */}
+        <div className="shrink-0 flex items-center gap-3">
+          {concert.lat != null && (
+            <span className="font-condensed text-[10px] tracking-[0.2em] text-cream/20 group-hover:text-neon-red/50 transition-colors duration-300">
+              ↓ CARTE
+            </span>
+          )}
           {concert.type === 'free' ? (
             <span
               className="inline-block font-condensed text-xs tracking-[0.25em] text-neon-red border border-neon-red/45 px-4 py-2"
@@ -78,6 +93,7 @@ function DateItem({ concert, index }) {
               href={concert.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
               className="inline-block font-condensed text-xs tracking-[0.25em] bg-neon-red text-motel-black px-4 py-2 hover:bg-neon-pink transition-colors duration-200"
             >
               TICKETS →
@@ -112,11 +128,132 @@ function EmptyState() {
   )
 }
 
+// ─── Contrôleur de vol de la carte ────────────────────────────────────────────
+function MapFlyTo({ center }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!center) return
+    map.flyTo(center, 13, { duration: 0.8 })
+  }, [center, map])
+  return null
+}
+
+// ─── Carte des dates ──────────────────────────────────────────────────────────
+function makeMarkerIcon(isNext) {
+  const size  = isNext ? 22 : 14
+  const color = isNext ? '#ff2442' : '#ff6b8a'
+  const cls   = isNext ? 'vm-marker-next' : ''
+
+  return L.divIcon({
+    html: `<div class="${cls}" style="
+      width:${size}px;
+      height:${size}px;
+      background:${color};
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,${isNext ? 0.45 : 0.2});
+      box-shadow:0 0 ${isNext ? 14 : 7}px ${isNext ? 3 : 1}px ${color}88;
+    "></div>`,
+    className: '',
+    iconSize:   [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2 + 6)],
+  })
+}
+
+function DatesMap({ concerts, selection, markerRefs }) {
+  const today    = new Date()
+  const mappable = concerts.filter(c => c.lat != null && c.lng != null)
+  if (mappable.length === 0) return null
+
+  const sorted  = [...mappable].sort((a, b) => new Date(a.date) - new Date(b.date))
+  const next    = sorted.find(c => new Date(c.date) >= today) ?? sorted[0]
+  const initial = [next.lat, next.lng]
+
+  const activeItem  = selection ? mappable.find(c => c.id === selection.id) : null
+  const flyCenter   = activeItem ? [activeItem.lat, activeItem.lng] : null
+
+  // Ouvre le popup après le vol de la carte
+  useEffect(() => {
+    if (!selection) return
+    const timer = setTimeout(() => {
+      markerRefs.current[selection.id]?.openPopup()
+    }, 900)
+    return () => clearTimeout(timer)
+  }, [selection, markerRefs])
+
+  return (
+    <Reveal>
+      <div className="mt-12 mb-0">
+        {/* Titre section */}
+        <div className="max-w-4xl mx-auto px-6 mb-6">
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-1 bg-white/[0.06]" />
+            <p className="font-condensed text-xs tracking-[0.4em] text-cream/30">SUR LA CARTE</p>
+            <div className="h-px flex-1 bg-white/[0.06]" />
+          </div>
+        </div>
+
+        {/* Carte */}
+        <div style={{ height: '420px' }} className="w-full">
+          <MapContainer
+            center={initial}
+            zoom={12}
+            scrollWheelZoom={false}
+            style={{ height: '100%', width: '100%' }}
+          >
+            <MapFlyTo center={flyCenter} />
+            <TileLayer
+              attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              subdomains="abcd"
+              maxZoom={19}
+            />
+            {mappable.map(c => (
+              <Marker
+                key={c.id}
+                position={[c.lat, c.lng]}
+                icon={makeMarkerIcon(c.id === next.id)}
+                ref={el => { if (el) markerRefs.current[c.id] = el }}
+              >
+                <Popup minWidth={210}>
+                  <p className="vm-popup-city">{c.city.toUpperCase()}</p>
+                  <p className="vm-popup-venue">{c.venue}</p>
+                  <p className="vm-popup-date">
+                    {new Date(c.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </p>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.city)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="vm-popup-btn"
+                  >
+                    OUVRIR DANS GOOGLE MAPS →
+                  </a>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
+      </div>
+    </Reveal>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // PAGE DATES
-// Éditez src/data/dates.js pour gérer les concerts.
 // ════════════════════════════════════════════════════════════════════════════
 export default function Dates() {
+  const [selection, setSelection]   = useState(null)
+  const mapSectionRef               = useRef(null)
+  const markerRefs                  = useRef({})
+
+  function handleDateClick(id) {
+    setSelection({ id, t: Date.now() })
+    setTimeout(() => {
+      mapSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 50)
+  }
+
   return (
     <>
       {/* En-tête de page */}
@@ -138,17 +275,30 @@ export default function Dates() {
       </div>
 
       {/* Liste ou état vide */}
-      <section className="max-w-4xl mx-auto px-6 pb-28">
+      <section className="max-w-4xl mx-auto px-6 pb-16">
         {dates.length === 0 ? (
           <EmptyState />
         ) : (
           <div>
             {dates.map((concert, i) => (
-              <DateItem key={concert.id} concert={concert} index={i} />
+              <DateItem
+                key={concert.id}
+                concert={concert}
+                index={i}
+                isActive={selection?.id === concert.id}
+                onClick={() => handleDateClick(concert.id)}
+              />
             ))}
           </div>
         )}
       </section>
+
+      {/* Carte */}
+      {dates.length > 0 && (
+        <section ref={mapSectionRef} className="pb-28">
+          <DatesMap concerts={dates} selection={selection} markerRefs={markerRefs} />
+        </section>
+      )}
     </>
   )
 }
