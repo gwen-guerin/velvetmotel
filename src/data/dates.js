@@ -16,7 +16,7 @@ export const dates = [
   {
     id: 1,
     date: "2026-06-06",
-    city: "Thusy (74) - 11H",
+    city: "Thusy (74) - 11H30",
     venue: "Rassemblement de véhicules anciens",
     type: "free",
     lat: 45.947,
@@ -25,7 +25,7 @@ export const dates = [
   {
     id: 2,
     date: "2026-06-19",
-    city: "Poisy (74)",
+    city: "Poisy (74) - 20H30",
     venue: "Fête de la musique",
     type: "free",
     lat: 45.9218,
@@ -34,7 +34,7 @@ export const dates = [
   {
     id: 3,
     date: "2026-06-21",
-    city: "Groisy (74)",
+    city: "Groisy (74) - 22H30",
     venue: "Fête de la musique",
     type: "free",
     lat: 46.0165,
