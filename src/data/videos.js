@@ -7,19 +7,18 @@
 export const videos = [
   {
     id: 1,
-    youtubeId: "1I5TVDyRsdw",
-    title:
-      "Live @ Le Brise Glace — When the sun goes down (Arctic Monkeys cover)",
+    youtubeId: "4JRlXcYWGOI",
+    title: "Live @ Le Brise Glace — LA Woman (The Doors)",
   },
   {
     id: 2,
-    youtubeId: "9XZkhVFAzUg",
-    title: "Live @ Le Brise Glace — Under the bridge (Red Hot Chili Peppers)",
+    youtubeId: "TGCgYM9HUKo",
+    title: "Live @ Le Brise Glace — Je dis aime (M) Solo + Fin",
   },
   {
     id: 3,
-    youtubeId: "bDa7uP_d-ck",
-    title: "Live @ Le Brise Glace — LA Woman (The Doors)",
+    youtubeId: "9XZkhVFAzUg",
+    title: "Live @ Le Brise Glace — Under the bridge (Red Hot Chili Peppers)",
   },
   {
     id: 4,
@@ -31,5 +30,11 @@ export const videos = [
     youtubeId: "I4aDsea2pBo",
     title:
       "Live @ Le Brise Glace — Killing in the name of (Rage Against The Machine)",
+  },
+  {
+    id: 6,
+    youtubeId: "1I5TVDyRsdw",
+    title:
+      "Live @ Le Brise Glace — When the sun goes down (Arctic Monkeys cover)",
   },
 ];
