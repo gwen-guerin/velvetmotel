@@ -6,6 +6,11 @@
 
 export const videos = [
   {
+    id: 6,
+    youtubeId: "lBwYp4fzjj0",
+    title: "Live @ Le Brise Glace — When the sun goes down (Arctic Monkeys)",
+  },
+  {
     id: 1,
     youtubeId: "4JRlXcYWGOI",
     title: "Live @ Le Brise Glace — LA Woman (The Doors)",
@@ -30,11 +35,5 @@ export const videos = [
     youtubeId: "I4aDsea2pBo",
     title:
       "Live @ Le Brise Glace — Killing in the name of (Rage Against The Machine)",
-  },
-  {
-    id: 6,
-    youtubeId: "1I5TVDyRsdw",
-    title:
-      "Live @ Le Brise Glace — When the sun goes down (Arctic Monkeys cover)",
   },
 ];
