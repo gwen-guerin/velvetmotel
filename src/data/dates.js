@@ -7,12 +7,14 @@
 //   venue     : nom de la salle
 //   type      : "free" (Entrée libre) | "ticketed" (Billetterie)
 //   ticketUrl : URL de billetterie (uniquement si type === "ticketed")
-//   lat / lng : coordonnées GPS pour la carte (optionnel)
+//   lat / lng : coordonnées GPS pour la carte (optionnel, dates à venir uniquement)
 //
+// La page trie automatiquement passées / à venir selon la date du jour.
 // Pour afficher le message "Aucune date", laissez le tableau vide : []
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const dates = [
+  // ── À VENIR ────────────────────────────────────────────────────────────────
   {
     id: 1,
     date: "2026-06-06",
@@ -48,5 +50,14 @@ export const dates = [
     type: "free",
     lat: 45.947,
     lng: 5.9491,
+  },
+
+  // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────
+  {
+    id: 101,
+    date: "2026-03-18",
+    city: "Annecy (74)",
+    venue: "Le Brise Glace",
+    type: "free",
   },
 ];
