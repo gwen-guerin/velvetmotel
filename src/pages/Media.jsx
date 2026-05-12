@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { videos } from "../data/videos";
 import { photos } from "../data/photos";
@@ -76,13 +76,14 @@ const sortedVideos = [
 
 function chunkVideos(arr, size) {
   const result = [];
-  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  for (let i = 0; i < arr.length; i += size)
+    result.push(arr.slice(i, i + size));
   return result;
 }
 
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(
-    () => window.matchMedia("(min-width: 640px)").matches
+    () => window.matchMedia("(min-width: 640px)").matches,
   );
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 640px)");
@@ -91,6 +92,23 @@ function useIsDesktop() {
     return () => mq.removeEventListener("change", handler);
   }, []);
   return isDesktop;
+}
+
+function SwipeEdge({ side, onSwipeLeft, onSwipeRight }) {
+  const startX = useRef(null);
+  return (
+    <div
+      className={`absolute top-0 bottom-0 z-10 w-14 ${side === "left" ? "left-0" : "right-0"}`}
+      onTouchStart={(e) => { startX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        if (startX.current === null) return;
+        const delta = startX.current - e.changedTouches[0].clientX;
+        startX.current = null;
+        if (delta > 40) onSwipeLeft();
+        else if (delta < -40) onSwipeRight();
+      }}
+    />
+  );
 }
 
 const slideVariants = {
@@ -106,6 +124,7 @@ function VideosSection() {
 
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
+  const touchStartX = useRef(null);
 
   // Reset page si on change de breakpoint et qu'on est hors limites
   useEffect(() => {
@@ -115,6 +134,18 @@ function VideosSection() {
   const goTo = (next) => {
     setDirection(next > page ? 1 : -1);
     setPage(next);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const delta = touchStartX.current - e.changedTouches[0].clientX;
+    touchStartX.current = null;
+    if (delta > 50 && page < pages.length - 1) goTo(page + 1);
+    else if (delta < -50 && page > 0) goTo(page - 1);
   };
 
   const videoGrid = (
@@ -140,6 +171,18 @@ function VideosSection() {
                 loading="lazy"
                 className="absolute inset-0 w-full h-full"
               />
+              {!isDesktop && (
+                <>
+                  <SwipeEdge side="left"
+                    onSwipeLeft={() => page < pages.length - 1 && goTo(page + 1)}
+                    onSwipeRight={() => page > 0 && goTo(page - 1)}
+                  />
+                  <SwipeEdge side="right"
+                    onSwipeLeft={() => page < pages.length - 1 && goTo(page + 1)}
+                    onSwipeRight={() => page > 0 && goTo(page - 1)}
+                  />
+                </>
+              )}
             </div>
             <div className="mt-3">
               <p className="font-condensed text-base tracking-wider text-cream/60 group-hover:text-cream/90 transition-colors duration-200 leading-tight">
@@ -177,26 +220,44 @@ function VideosSection() {
 
       {isDesktop ? (
         /* ── Desktop : flèches sur les côtés ── */
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-6">
             <div className="flex-shrink-0">
-              <ArrowBtn direction="left" onClick={() => goTo(page - 1)} disabled={page === 0} />
+              <ArrowBtn
+                direction="left"
+                onClick={() => goTo(page - 1)}
+                disabled={page === 0}
+              />
             </div>
             <div className="flex-1 overflow-hidden">{videoGrid}</div>
             <div className="flex-shrink-0">
-              <ArrowBtn direction="right" onClick={() => goTo(page + 1)} disabled={page === pages.length - 1} />
+              <ArrowBtn
+                direction="right"
+                onClick={() => goTo(page + 1)}
+                disabled={page === pages.length - 1}
+              />
             </div>
           </div>
           {indicators}
         </div>
       ) : (
         /* ── Mobile : vidéo quasi pleine largeur, flèches en dessous ── */
-        <div>
+        <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <div className="px-3 overflow-hidden">{videoGrid}</div>
           <div className="flex items-center justify-center gap-10 mt-6 px-6">
-            <ArrowBtn bare direction="left" onClick={() => goTo(page - 1)} disabled={page === 0} />
+            <ArrowBtn
+              bare
+              direction="left"
+              onClick={() => goTo(page - 1)}
+              disabled={page === 0}
+            />
             {indicators}
-            <ArrowBtn bare direction="right" onClick={() => goTo(page + 1)} disabled={page === pages.length - 1} />
+            <ArrowBtn
+              bare
+              direction="right"
+              onClick={() => goTo(page + 1)}
+              disabled={page === pages.length - 1}
+            />
           </div>
         </div>
       )}
