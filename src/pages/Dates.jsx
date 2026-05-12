@@ -33,7 +33,7 @@ function UpcomingItem({ concert, index, isActive, onClick }) {
     <Reveal delay={index * 0.09}>
       <div
         onClick={onClick}
-        className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 border-b border-white/[0.06] py-10 px-2 hover:px-4 transition-all duration-300 cursor-pointer select-none"
+        className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 border-b border-white/[0.06] py-5 sm:py-10 px-2 hover:px-4 transition-all duration-300 cursor-pointer select-none"
         style={
           isActive
             ? { paddingLeft: "1rem", borderColor: "rgba(255,36,66,0.25)" }
@@ -373,7 +373,7 @@ export default function Dates() {
   return (
     <>
       {/* En-tête */}
-      <div className="pt-36 pb-8 px-6 text-center">
+      <div className="pt-24 sm:pt-36 pb-8 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -392,7 +392,7 @@ export default function Dates() {
         </motion.div>
       </div>
 
-      <section className="max-w-4xl mx-auto px-6 pb-16">
+      <section className="max-w-4xl mx-auto px-6 pb-8 sm:pb-16">
         {/* ── Dates à venir ── */}
         {upcoming.length === 0 ? (
           <EmptyState />
@@ -425,7 +425,7 @@ export default function Dates() {
 
       {/* Carte — uniquement dates à venir */}
       {upcoming.length > 0 && (
-        <section ref={mapSectionRef} className="pb-28">
+        <section ref={mapSectionRef} className="pb-14 sm:pb-28">
           <DatesMap
             upcoming={upcoming}
             selection={selection}

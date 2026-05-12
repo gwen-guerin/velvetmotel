@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { videos } from "../data/videos";
 import { photos } from "../data/photos";
 
@@ -32,61 +33,179 @@ function SectionHeader({ eyebrow, title }) {
   );
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// SECTION VIDÉOS
-// Éditez src/data/videos.js pour changer les IDs YouTube et les titres.
-// ════════════════════════════════════════════════════════════════════════════
-function VideoCard({ video, index }) {
+// ─── Bouton flèche ────────────────────────────────────────────────────────────
+function ArrowBtn({ direction, onClick, disabled, bare = false }) {
   return (
-    <Reveal delay={index * 0.1}>
-      <div className="group">
-        {/* Player YouTube — aspect 16:9 */}
-        <div className="relative aspect-video overflow-hidden border border-white/[0.06] group-hover:border-neon-red/30 transition-colors duration-300">
-          <iframe
-            src={`https://www.youtube.com/embed/${video.youtubeId}?rel=0&modestbranding=1`}
-            title={video.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            loading="lazy"
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
-
-        {/* Titre + ligne hover */}
-        <div className="mt-3">
-          <p className="font-condensed text-base tracking-wider text-cream/60 group-hover:text-cream/90 transition-colors duration-200 leading-tight">
-            {video.title}
-          </p>
-          <div className="mt-1.5 h-px w-0 group-hover:w-full bg-neon-red/40 transition-all duration-500 ease-out" />
-        </div>
-      </div>
-    </Reveal>
+    <motion.button
+      onClick={onClick}
+      disabled={disabled}
+      whileHover={!disabled ? { scale: 1.12 } : {}}
+      whileTap={!disabled ? { scale: 0.9 } : {}}
+      className={`transition-all duration-300 ${
+        bare
+          ? `p-2 ${disabled ? "text-white/15 cursor-default" : "text-neon-red/50 hover:text-neon-red"}`
+          : `border rounded-full p-3 ${
+              disabled
+                ? "border-white/10 text-white/15 cursor-default"
+                : "border-neon-red/40 text-neon-red/60 hover:border-neon-red/90 hover:text-neon-red hover:shadow-[0_0_14px_rgba(255,36,66,0.35)]"
+            }`
+      }`}
+    >
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+        <path
+          d={direction === "left" ? "M13 4l-6 6 6 6" : "M7 4l6 6-6 6"}
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </motion.button>
   );
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// SECTION VIDÉOS — carousel horizontal par page de 3 (desktop) ou 1 (mobile)
+// ════════════════════════════════════════════════════════════════════════════
+
+// Pinned en premier, puis le reste
+const sortedVideos = [
+  ...videos.filter((v) => v.pinned),
+  ...videos.filter((v) => !v.pinned),
+];
+
+function chunkVideos(arr, size) {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  return result;
+}
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(
+    () => window.matchMedia("(min-width: 640px)").matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isDesktop;
+}
+
+const slideVariants = {
+  enter: (dir) => ({ opacity: 0, x: dir > 0 ? 80 : -80 }),
+  center: { opacity: 1, x: 0 },
+  exit: (dir) => ({ opacity: 0, x: dir > 0 ? -80 : 80 }),
+};
+
 function VideosSection() {
+  const isDesktop = useIsDesktop();
+  const perPage = isDesktop ? 3 : 1;
+  const pages = chunkVideos(sortedVideos, perPage);
+
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  // Reset page si on change de breakpoint et qu'on est hors limites
+  useEffect(() => {
+    setPage((p) => Math.min(p, pages.length - 1));
+  }, [perPage, pages.length]);
+
+  const goTo = (next) => {
+    setDirection(next > page ? 1 : -1);
+    setPage(next);
+  };
+
+  const videoGrid = (
+    <AnimatePresence mode="wait" custom={direction}>
+      <motion.div
+        key={page}
+        custom={direction}
+        variants={slideVariants}
+        initial="enter"
+        animate="center"
+        exit="exit"
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-10"
+      >
+        {pages[page].map((video) => (
+          <div key={video.id} className="group">
+            <div className="relative aspect-video overflow-hidden border border-white/[0.06] group-hover:border-neon-red/30 transition-colors duration-300">
+              <iframe
+                src={`https://www.youtube.com/embed/${video.youtubeId}?rel=0&modestbranding=1`}
+                title={video.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+            <div className="mt-3">
+              <p className="font-condensed text-base tracking-wider text-cream/60 group-hover:text-cream/90 transition-colors duration-200 leading-tight">
+                {video.title}
+              </p>
+              <div className="mt-1.5 h-px w-0 group-hover:w-full bg-neon-red/40 transition-all duration-500 ease-out" />
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </AnimatePresence>
+  );
+
+  const indicators = pages.length > 1 && (
+    <div className="flex justify-center gap-2 mt-10">
+      {pages.map((_, i) => (
+        <button
+          key={i}
+          onClick={() => goTo(i)}
+          className={`h-px transition-all duration-300 ${
+            i === page ? "w-8 bg-neon-red" : "w-4 bg-white/20 hover:bg-white/40"
+          }`}
+        />
+      ))}
+    </div>
+  );
+
   return (
-    <section className="py-24 px-6 bg-motel-black">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-24 bg-motel-black">
+      <div className="max-w-6xl mx-auto px-6">
         <Reveal>
           <SectionHeader eyebrow="Watch" title="VIDÉOS" />
         </Reveal>
-
-        {/* Grid : 1 col → 2 → 3 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {videos.map((video, i) => (
-            <VideoCard key={video.id} video={video} index={i} />
-          ))}
-        </div>
       </div>
+
+      {isDesktop ? (
+        /* ── Desktop : flèches sur les côtés ── */
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center gap-6">
+            <div className="flex-shrink-0">
+              <ArrowBtn direction="left" onClick={() => goTo(page - 1)} disabled={page === 0} />
+            </div>
+            <div className="flex-1 overflow-hidden">{videoGrid}</div>
+            <div className="flex-shrink-0">
+              <ArrowBtn direction="right" onClick={() => goTo(page + 1)} disabled={page === pages.length - 1} />
+            </div>
+          </div>
+          {indicators}
+        </div>
+      ) : (
+        /* ── Mobile : vidéo quasi pleine largeur, flèches en dessous ── */
+        <div>
+          <div className="px-3 overflow-hidden">{videoGrid}</div>
+          <div className="flex items-center justify-center gap-10 mt-6 px-6">
+            <ArrowBtn bare direction="left" onClick={() => goTo(page - 1)} disabled={page === 0} />
+            {indicators}
+            <ArrowBtn bare direction="right" onClick={() => goTo(page + 1)} disabled={page === pages.length - 1} />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
 
 // ════════════════════════════════════════════════════════════════════════════
 // SECTION PHOTOS
-// Éditez src/data/photos.js pour ajouter vos vraies photos.
-// La grille masonry est obtenue via la propriété CSS `columns` native.
 // ════════════════════════════════════════════════════════════════════════════
 function PhotoItem({ photo, index }) {
   return (
@@ -107,9 +226,7 @@ function PhotoItem({ photo, index }) {
         className="w-full h-auto block object-cover transition-transform duration-600 group-hover:scale-[1.04]"
         loading="lazy"
       />
-      {/* Overlay rouge semi-transparent au hover */}
       <div className="absolute inset-0 bg-neon-red/0 group-hover:bg-neon-red/[0.18] transition-all duration-400" />
-      {/* Lueur interne sur les bords */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
         style={{ boxShadow: "inset 0 0 24px rgba(255,36,66,0.25)" }}
@@ -120,13 +237,11 @@ function PhotoItem({ photo, index }) {
 
 function PhotosSection() {
   return (
-    <section className="py-24 px-6 bg-motel-dark">
+    <section className="py-12 sm:py-24 px-6 bg-motel-dark">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Gallery" title="PHOTOS" />
         </Reveal>
-
-        {/* Masonry CSS natif — 1 → 2 → 3 colonnes */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {photos.map((photo, i) => (
             <PhotoItem key={photo.id} photo={photo} index={i} />
@@ -143,24 +258,6 @@ function PhotosSection() {
 export default function Media() {
   return (
     <>
-      {/* En-tête de page */}
-      {/* <div className="pt-36 pb-8 px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65 }}
-        >
-          <p className="font-condensed text-xs tracking-[0.45em] text-neon-red/50 mb-2">VELVET MOTEL</p>
-          <h1
-            className="font-condensed tracking-widest text-cream leading-none"
-            style={{ fontSize: 'clamp(3.5rem, 10vw, 7rem)' }}
-          >
-            MÉDIAS
-          </h1>
-          <div className="mt-5 h-px w-28 mx-auto bg-gradient-to-r from-transparent via-neon-red/70 to-transparent" />
-        </motion.div>
-      </div> */}
-
       <VideosSection />
       <PhotosSection />
     </>

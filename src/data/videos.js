@@ -9,16 +9,19 @@ export const videos = [
     id: 6,
     youtubeId: "lBwYp4fzjj0",
     title: "Live @ Le Brise Glace — When the sun goes down (Arctic Monkeys)",
+    pinned: true,
   },
   {
     id: 1,
     youtubeId: "4JRlXcYWGOI",
     title: "Live @ Le Brise Glace — LA Woman (The Doors)",
+    pinned: true,
   },
   {
     id: 2,
     youtubeId: "TGCgYM9HUKo",
     title: "Live @ Le Brise Glace — Je dis aime (M) Solo + Fin",
+    pinned: true,
   },
   {
     id: 3,

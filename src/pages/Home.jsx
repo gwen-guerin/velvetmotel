@@ -199,7 +199,7 @@ function MemberCard({ member, index }) {
 
 function MembersSection() {
   return (
-    <section id="qui-on-est" className="py-24 px-6 bg-motel-dark">
+    <section id="qui-on-est" className="py-12 sm:py-24 px-6 bg-motel-dark">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Le groupe" title="QUI ON EST" />
@@ -235,7 +235,7 @@ const influences = [
 
 function InfluencesSection() {
   return (
-    <section className="py-24 px-6 bg-motel-black overflow-hidden">
+    <section className="py-12 sm:py-24 px-6 bg-motel-black overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Répertoire" title="NOS INFLUENCES" />
@@ -308,7 +308,7 @@ function DatesPreview() {
   }
 
   return (
-    <section className="py-24 px-6 bg-motel-dark">
+    <section className="py-12 sm:py-24 px-6 bg-motel-dark">
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Agenda" title="PROCHAINES DATES" />
