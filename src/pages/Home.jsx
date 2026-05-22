@@ -39,18 +39,71 @@ function SectionHeader({ eyebrow, title }) {
 function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-      {/* Halo ambiant centré */}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          BACKGROUND CINÉMATIQUE : crew.jpg + overlays
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="absolute inset-0 z-0">
+        {/* Photo de groupe — plein écran, désaturée et assombrie */}
+        <img
+          src="/assets/crew.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center"
+          style={{
+            filter: "saturate(0.65) brightness(0.45)",
+          }}
+        />
+
+        {/* Vignette radiale : fade vers le noir sur les bords */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 0%, rgba(17, 17, 17, 0.4) 60%, rgba(17, 17, 17, 0.85) 100%)",
+          }}
+        />
+
+        {/* Fade noir en haut (pour navbar) */}
+        <div
+          className="absolute inset-x-0 top-0 h-32"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(17, 17, 17, 0.65), transparent)",
+          }}
+        />
+
+        {/* Fade noir en bas (pour lisibilité du texte) */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-48"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(17, 17, 17, 0.98), rgba(17, 17, 17, 0.6) 50%, transparent)",
+          }}
+        />
+
+        {/* Teinte rouge subtile (color grading) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(255, 36, 66, 0.06) 0%, transparent 75%)",
+            mixBlendMode: "screen",
+          }}
+        />
+      </div>
+
+      {/* Halo ambiant centré (boosted légèrement) */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-10"
         style={{
           background:
-            "radial-gradient(ellipse 55% 45% at 50% 48%, rgba(255,36,66,0.08) 0%, transparent 72%)",
+            "radial-gradient(ellipse 55% 45% at 50% 48%, rgba(255,36,66,0.12) 0%, transparent 72%)",
         }}
       />
 
       {/* Logo néon avec flickering */}
       <motion.div
-        className="select-none animate-flicker flex flex-col items-center justify-center"
+        className="relative z-20 select-none animate-flicker flex flex-col items-center justify-center mt-16"
         initial={{ opacity: 0, scale: 0.88 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
@@ -59,7 +112,7 @@ function Hero() {
         <span
           className="font-script block leading-none text-neon-pink"
           style={{
-            fontSize: "clamp(4.5rem, 14vw, 9.5rem)",
+            fontSize: "clamp(3.2rem, 10vw, 7rem)",
             textShadow: `
             0 0 4px rgba(255,255,255,0.25),
             0 0 10px rgba(255, 107, 138, 0.35),
@@ -74,7 +127,7 @@ function Hero() {
         <span
           className="font-condensed block tracking-widest pl-[20px] text-neon-red -mt-3"
           style={{
-            fontSize: "clamp(4rem, 17vw, 13rem)",
+            fontSize: "clamp(3rem, 13vw, 9.5rem)",
             textShadow: `
             0 0 6px #ff2442,
             0 0 12px rgba(255, 36, 66),
@@ -88,7 +141,7 @@ function Hero() {
 
       {/* Sous-titre */}
       <motion.p
-        className="font-condensed tracking-[0.45em] text-cream/40 mt-4"
+        className="relative z-20 font-condensed tracking-[0.45em] text-cream/40 mt-4"
         style={{ fontSize: "clamp(0.85rem, 2vw, 1.1rem)" }}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -102,7 +155,7 @@ function Hero() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0, duration: 0.9 }}
-        className="mt-12"
+        className="relative z-20 mt-12"
       >
         <a
           href="#qui-on-est"
@@ -114,7 +167,7 @@ function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-scroll-bounce"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-scroll-bounce"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.8 }}
