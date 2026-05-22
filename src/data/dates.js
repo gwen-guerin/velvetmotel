@@ -44,12 +44,21 @@ export const dates = [
   },
   {
     id: 4,
-    date: "2026-06-26",
+    date: "2026-06-27",
     city: "Thusy (74)",
     venue: "Fête de la musique",
     type: "free",
     lat: 45.947,
     lng: 5.9491,
+  },
+  {
+    id: 5,
+    date: "2026-07-10",
+    city: "Le Mazot Cosmique - Annecy (74)",
+    venue: "Fermeture avant vacances",
+    type: "free",
+    lat: 45.909067,
+    lng: 6.1174,
   },
 
   // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────
