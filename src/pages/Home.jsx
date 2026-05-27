@@ -39,58 +39,9 @@ function SectionHeader({ eyebrow, title }) {
 function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          BACKGROUND CINÉMATIQUE : crew.jpg + overlays
-          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div className="absolute inset-0 z-0">
-        {/* Photo de groupe — plein écran, désaturée et assombrie */}
-        <img
-          src="/assets/crew.jpg"
-          alt=""
-          aria-hidden="true"
-          className="w-full h-full object-cover object-center"
-          style={{
-            filter: "saturate(0.65) brightness(0.45)",
-          }}
-        />
+      {/* Background noir + halo rouge subtil */}
+      <div className="absolute inset-0 z-0 bg-motel-black" />
 
-        {/* Vignette radiale : fade vers le noir sur les bords */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 0%, rgba(17, 17, 17, 0.4) 60%, rgba(17, 17, 17, 0.85) 100%)",
-          }}
-        />
-
-        {/* Fade noir en haut (pour navbar) */}
-        <div
-          className="absolute inset-x-0 top-0 h-32"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(17, 17, 17, 0.65), transparent)",
-          }}
-        />
-
-        {/* Fade noir en bas (pour lisibilité du texte) */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-48"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(17, 17, 17, 0.98), rgba(17, 17, 17, 0.6) 50%, transparent)",
-          }}
-        />
-
-        {/* Teinte rouge subtile (color grading) */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(255, 36, 66, 0.06) 0%, transparent 75%)",
-            mixBlendMode: "screen",
-          }}
-        />
-      </div>
 
       {/* Halo ambiant centré (boosted légèrement) */}
       <div
@@ -101,43 +52,21 @@ function Hero() {
         }}
       />
 
-      {/* Logo néon avec flickering */}
+      {/* Logo image */}
       <motion.div
-        className="relative z-20 select-none animate-flicker flex flex-col items-center justify-center mt-16"
-        initial={{ opacity: 0, scale: 0.88 }}
+        className="relative z-20 select-none flex items-center justify-center "
+        initial={{ opacity: 0, scale: 0.78 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* "Velvet" — script cursive rose */}
-        <span
-          className="font-script block leading-none text-neon-pink"
-          style={{
-            fontSize: "clamp(3.2rem, 10vw, 7rem)",
-            textShadow: `
-            0 0 4px rgba(255,255,255,0.25),
-            0 0 10px rgba(255, 107, 138, 0.35),
-            0 0 24px rgba(255, 107, 138, 0.25),
-            0 0 48px rgba(255, 36, 66, 0.15)
-          `,
-          }}
-        >
-          Velvet
-        </span>
-        {/* "MOTEL" — condensed rouge */}
-        <span
-          className="font-condensed block tracking-widest pl-[20px] text-neon-red -mt-3"
-          style={{
-            fontSize: "clamp(3rem, 13vw, 9.5rem)",
-            textShadow: `
-            0 0 6px #ff2442,
-            0 0 12px rgba(255, 36, 66),
-            0 0 20px rgba(255, 36, 66, 0.2)
-          `,
-          }}
-        >
-          MOTEL
-        </span>
+        <img
+          src="/logoVelvetMotel.png"
+          alt="Velvet Motel"
+          className="w-auto"
+          style={{ maxWidth: "clamp(320px, 80vw, 720px)" }}
+        />
       </motion.div>
+
 
       {/* Sous-titre */}
       <motion.p
@@ -167,7 +96,7 @@ function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-scroll-bounce"
+        className="absolute bottom-8 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-scroll-bounce"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.8 }}
@@ -252,8 +181,25 @@ function MemberCard({ member, index }) {
 
 function MembersSection() {
   return (
-    <section id="qui-on-est" className="py-12 sm:py-24 px-6 bg-motel-dark">
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="qui-on-est"
+      className="relative py-12 sm:py-24 px-6 overflow-hidden"
+    >
+      {/* Background crew.jpg désaturé et assombri */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/crew.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center"
+          style={{ filter: "saturate(0.4) brightness(0.25)" }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(17,17,17,0.55)" }}
+        />
+      </div>
+      <div className="relative z-10 max-w-6xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Le groupe" title="QUI ON EST" />
         </Reveal>

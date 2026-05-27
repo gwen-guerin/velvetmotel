@@ -59,29 +59,23 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto  flex items-center justify-between">
         {/* ── Logo ── */}
         <Link
           to="/"
-          className="flex items-baseline gap-0.5 select-none"
+          className="select-none"
           aria-label="Velvet Motel — accueil"
         >
-          <span
-            className="font-script text-2xl text-neon-pink leading-none"
-            style={{ textShadow: "0 0 8px #ff6b8a, 0 0 18px #ff2442" }}
-          >
-            Velvet
-          </span>
-          <span
-            className="font-condensed text-xl text-neon-red tracking-widest leading-none ml-1"
-            style={{ textShadow: "0 0 8px #ff2442, 0 0 16px #ff2442" }}
-          >
-            MOTEL
-          </span>
+          <img
+            src="/logoVelvetMotel.png"
+            alt="Velvet Motel"
+            className="h-20 w-auto"
+          />
         </Link>
 
+
         {/* ── Desktop nav ── */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8 px-6 py-4">
           {navLinks.map(({ to, label, end }) => (
             <NavLink
               key={to}

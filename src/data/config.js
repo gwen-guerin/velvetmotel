@@ -8,5 +8,5 @@ export const config = {
   // Handle affiché dans le footer
   instagramHandle: "@velvetmotel_off",
   // Email de contact
-  email: "velvetmotel@gmail.com",
+  email: "velvetmoteloff@gmail.com",
 };
