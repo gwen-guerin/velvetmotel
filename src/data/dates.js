@@ -3,6 +3,7 @@
 //
 // Champs :
 //   date      : "YYYY-MM-DD"
+//   time      : "20H30" (optionnel — heure de passage sur scène)
 //   city      : ville
 //   venue     : nom de la salle
 //   type      : "free" (Entrée libre) | "ticketed" (Billetterie)
@@ -18,7 +19,8 @@ export const dates = [
   {
     id: 1,
     date: "2026-06-06",
-    city: "Thusy (74) - 11H30",
+    time: "11H30",
+    city: "Thusy (74)",
     venue: "Rassemblement de véhicules anciens",
     type: "free",
     lat: 45.947,
@@ -27,7 +29,8 @@ export const dates = [
   {
     id: 2,
     date: "2026-06-19",
-    city: "Poisy (74) - 20H30",
+    time: "20H30",
+    city: "Poisy (74)",
     venue: "Fête de la musique",
     type: "free",
     lat: 45.9218,
@@ -36,7 +39,8 @@ export const dates = [
   {
     id: 3,
     date: "2026-06-21",
-    city: "Groisy (74) - 22H30",
+    time: "22H30",
+    city: "Groisy (74)",
     venue: "Fête de la musique",
     type: "free",
     lat: 46.0165,
@@ -45,6 +49,7 @@ export const dates = [
   {
     id: 4,
     date: "2026-06-27",
+    time: "20H00",
     city: "Thusy (74)",
     venue: "Fête de la musique",
     type: "free",
@@ -54,11 +59,20 @@ export const dates = [
   {
     id: 5,
     date: "2026-07-10",
+    time: "21H30",
     city: "Le Mazot Cosmique - Annecy (74)",
-    venue: "Fermeture avant vacances",
     type: "free",
     lat: 45.909067,
     lng: 6.1174,
+  },
+  {
+    id: 7,
+    date: "2026-07-21",
+    time: "19H00",
+    city: "Ébo - Annecy (74)",
+    type: "free",
+    lat: 45.90564,
+    lng: 6.153316,
   },
 
   // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────

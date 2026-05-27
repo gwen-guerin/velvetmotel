@@ -58,6 +58,17 @@ function UpcomingItem({ concert, index, isActive, onClick }) {
             <p className="font-condensed text-base tracking-wider text-cream/25">
               {year}
             </p>
+            {concert.time && (
+              <p
+                className="font-condensed tracking-widest text-neon-pink mt-1"
+                style={{
+                  fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                  textShadow: "0 0 10px rgba(255,107,138,0.5)",
+                }}
+              >
+                {concert.time}
+              </p>
+            )}
           </div>
         </div>
 
@@ -306,6 +317,7 @@ function DatesMap({ upcoming, selection, markerRefs }) {
                       month: "long",
                       year: "numeric",
                     })}
+                    {c.time && ` — ${c.time}`}
                   </p>
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.city)}`}

@@ -73,26 +73,6 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Logo texte néon — conservé pour référence
-        <Link
-          to="/"
-          className="flex items-baseline gap-0.5 select-none"
-          aria-label="Velvet Motel — accueil"
-        >
-          <span
-            className="font-script text-2xl text-neon-pink leading-none"
-            style={{ textShadow: "0 0 8px #ff6b8a, 0 0 18px #ff2442" }}
-          >
-            Velvet
-          </span>
-          <span
-            className="font-condensed text-xl text-neon-red tracking-widest leading-none ml-1"
-            style={{ textShadow: "0 0 8px #ff2442, 0 0 16px #ff2442" }}
-          >
-            MOTEL
-          </span>
-        </Link>
-        */}
 
         {/* ── Desktop nav ── */}
         <div className="hidden md:flex items-center gap-8 px-6 py-4">

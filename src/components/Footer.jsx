@@ -35,12 +35,6 @@ export default function Footer() {
             alt="Velvet Motel"
             className="h-20 w-auto"
           />
-          {/* Logo texte néon — conservé pour référence
-          <div className="text-center md:text-left select-none">
-            <span className="font-script text-3xl text-neon-pink" style={{ textShadow: '0 0 10px #ff6b8a, 0 0 20px #ff2442' }}>Velvet</span>
-            <span className="font-condensed text-2xl text-neon-red tracking-widest ml-1" style={{ textShadow: '0 0 10px #ff2442' }}>MOTEL</span>
-          </div>
-          */}
 
           {/* Liens contact */}
           <div className="flex flex-col sm:flex-row items-center gap-5">

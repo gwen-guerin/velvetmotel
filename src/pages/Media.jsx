@@ -99,7 +99,9 @@ function SwipeEdge({ side, onSwipeLeft, onSwipeRight }) {
   return (
     <div
       className={`absolute top-0 bottom-0 z-10 w-14 ${side === "left" ? "left-0" : "right-0"}`}
-      onTouchStart={(e) => { startX.current = e.touches[0].clientX; }}
+      onTouchStart={(e) => {
+        startX.current = e.touches[0].clientX;
+      }}
       onTouchEnd={(e) => {
         if (startX.current === null) return;
         const delta = startX.current - e.changedTouches[0].clientX;
@@ -173,12 +175,18 @@ function VideosSection() {
               />
               {!isDesktop && (
                 <>
-                  <SwipeEdge side="left"
-                    onSwipeLeft={() => page < pages.length - 1 && goTo(page + 1)}
+                  <SwipeEdge
+                    side="left"
+                    onSwipeLeft={() =>
+                      page < pages.length - 1 && goTo(page + 1)
+                    }
                     onSwipeRight={() => page > 0 && goTo(page - 1)}
                   />
-                  <SwipeEdge side="right"
-                    onSwipeLeft={() => page < pages.length - 1 && goTo(page + 1)}
+                  <SwipeEdge
+                    side="right"
+                    onSwipeLeft={() =>
+                      page < pages.length - 1 && goTo(page + 1)
+                    }
                     onSwipeRight={() => page > 0 && goTo(page - 1)}
                   />
                 </>
@@ -211,8 +219,23 @@ function VideosSection() {
   );
 
   return (
-    <section className="py-24 bg-motel-black">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="relative py-24 overflow-hidden">
+      {/* Background crew.jpg désaturé et assombri */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/crew.jpg"
+          alt="crew pic"
+          aria-hidden="true"
+          className="size-full object-cover object-center"
+          style={{ filter: "saturate(0.8) brightness(0.25)" }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(17,17,17,0.55)" }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         <Reveal>
           <SectionHeader eyebrow="Watch" title="VIDÉOS" />
         </Reveal>
@@ -220,7 +243,7 @@ function VideosSection() {
 
       {isDesktop ? (
         /* ── Desktop : flèches sur les côtés ── */
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-6">
             <div className="flex-shrink-0">
               <ArrowBtn
@@ -242,7 +265,11 @@ function VideosSection() {
         </div>
       ) : (
         /* ── Mobile : vidéo quasi pleine largeur, flèches en dessous ── */
-        <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <div
+          className="relative z-10"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="px-3 overflow-hidden">{videoGrid}</div>
           <div className="flex items-center justify-center gap-10 mt-6 px-6">
             <ArrowBtn

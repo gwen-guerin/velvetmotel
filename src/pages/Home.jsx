@@ -42,21 +42,6 @@ function Hero() {
       {/* Background noir + halo rouge subtil */}
       <div className="absolute inset-0 z-0 bg-motel-black" />
 
-      {/* Background cinématique crew.jpg — conservé pour référence
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/assets/crew.jpg"
-          alt=""
-          aria-hidden="true"
-          className="w-full h-full object-cover object-center"
-          style={{ filter: "saturate(0.65) brightness(0.25)" }}
-        />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 0%, rgba(17, 17, 17, 0.4) 60%, rgba(17, 17, 17, 0.85) 100%)" }} />
-        <div className="absolute inset-x-0 top-0 h-32" style={{ background: "linear-gradient(to bottom, rgba(17, 17, 17, 0.65), transparent)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: "linear-gradient(to top, rgba(17, 17, 17, 0.98), rgba(17, 17, 17, 0.6) 50%, transparent)" }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 100% 100% at 50% 50%, rgba(255, 36, 66, 0.06) 0%, transparent 75%)", mixBlendMode: "screen" }} />
-      </div>
-      */}
 
       {/* Halo ambiant centré (boosted légèrement) */}
       <div
@@ -70,7 +55,7 @@ function Hero() {
       {/* Logo image */}
       <motion.div
         className="relative z-20 select-none flex items-center justify-center "
-        initial={{ opacity: 0, scale: 0.88 }}
+        initial={{ opacity: 0, scale: 0.78 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
       >
@@ -78,46 +63,10 @@ function Hero() {
           src="/logoVelvetMotel.png"
           alt="Velvet Motel"
           className="w-auto"
-          style={{ maxWidth: "clamp(240px, 50vw, 600px)" }}
+          style={{ maxWidth: "clamp(320px, 80vw, 720px)" }}
         />
       </motion.div>
 
-      {/* Logo néon avec flickering — conservé pour référence
-      <motion.div
-        className="relative z-20 select-none animate-flicker flex flex-col items-center justify-center mt-[20%]"
-        initial={{ opacity: 0, scale: 0.88 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <span
-          className="font-script block leading-none text-neon-pink"
-          style={{
-            fontSize: "clamp(3.2rem, 10vw, 7rem)",
-            textShadow: `
-            0 0 4px rgba(255,255,255,0.25),
-            0 0 10px rgba(255, 107, 138, 0.35),
-            0 0 24px rgba(255, 107, 138, 0.25),
-            0 0 48px rgba(255, 36, 66, 0.15)
-          `,
-          }}
-        >
-          Velvet
-        </span>
-        <span
-          className="font-condensed block tracking-widest pl-[20px] text-neon-red -mt-3"
-          style={{
-            fontSize: "clamp(3rem, 13vw, 9.5rem)",
-            textShadow: `
-            0 0 6px #ff2442,
-            0 0 12px rgba(255, 36, 66),
-            0 0 20px rgba(255, 36, 66, 0.2)
-          `,
-          }}
-        >
-          MOTEL
-        </span>
-      </motion.div>
-      */}
 
       {/* Sous-titre */}
       <motion.p

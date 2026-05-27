@@ -23,4 +23,6 @@ export const photos = [
   { id: 16, url: "/assets/15.jpeg", alt: "Velvet Motel concert" },
   { id: 17, url: "/assets/16.jpeg", alt: "Velvet Motel concert" },
   { id: 18, url: "/assets/17.jpeg", alt: "Velvet Motel concert" },
+  { id: 18, url: "/assets/17.jpeg", alt: "Velvet Motel concert" },
+  { id: 18, url: "/assets/17.jpeg", alt: "Velvet Motel concert" },
 ];
