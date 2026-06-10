@@ -11,7 +11,7 @@ export const members = [
     instrument: "Batterie",
     description:
       "La pulsation du groupe. Groove naturel, précision chirurgicale, puissance contrôlée.",
-    photo: "/assets/nate.jpg",
+    photo: "/assets/nate.jpeg",
     instagram: "https://www.instagram.com/dramacentrique/",
   },
   {
