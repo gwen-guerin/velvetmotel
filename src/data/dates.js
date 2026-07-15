@@ -17,6 +17,54 @@
 export const dates = [
   // ── À VENIR ────────────────────────────────────────────────────────────────
   {
+    id: 7,
+    date: "2026-07-21",
+    time: "19H00",
+    city: "Ébo - Annecy",
+    type: "free",
+    lat: 45.90564,
+    lng: 6.153316,
+  },
+  {
+    id: 8,
+    date: "2026-08-23",
+    time: "18H00",
+    city: "Guinguette du lac - Annecy",
+    venue: "Rock à la Piscine #2",
+    type: "free",
+    lat: 45.905,
+    lng: 6.147,
+  },
+  {
+    id: 9,
+    date: "2026-09-05",
+    time: "18H30",
+    city: "Bonlieu - Annecy",
+    venue: "Festival Coup de Théâtre",
+    type: "free",
+    lat: 45.905,
+    lng: 6.147,
+  },
+  {
+    id: 10,
+    date: "2026-09-20",
+    time: "18H00",
+    city: "Guinguette du lac - Annecy",
+    venue: "Rock à la Piscine #3",
+    type: "free",
+    lat: 45.905,
+    lng: 6.147,
+  },
+
+  // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────
+  {
+    id: 101,
+    date: "2026-03-18",
+    city: "Annecy (74)",
+    venue: "Le Brise Glace",
+    type: "free",
+  },
+  {
     id: 1,
     date: "2026-06-06",
     time: "11H30",
@@ -74,23 +122,5 @@ export const dates = [
     type: "free",
     lat: 45.905,
     lng: 6.147,
-  },
-  {
-    id: 7,
-    date: "2026-07-21",
-    time: "19H00",
-    city: "Ébo - Annecy",
-    type: "free",
-    lat: 45.90564,
-    lng: 6.153316,
-  },
-
-  // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────
-  {
-    id: 101,
-    date: "2026-03-18",
-    city: "Annecy (74)",
-    venue: "Le Brise Glace",
-    type: "free",
   },
 ];

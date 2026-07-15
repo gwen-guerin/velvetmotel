@@ -11,7 +11,7 @@ export const members = [
     instrument: "Batterie",
     description:
       "La pulsation du groupe. Groove naturel, précision chirurgicale, puissance contrôlée.",
-    photo: "/assets/nate.jpeg",
+    photo: "/assets/nate2.jpeg",
     instagram: "https://www.instagram.com/dramacentrique/",
   },
   {
@@ -20,7 +20,7 @@ export const members = [
     instrument: "Basse",
     description:
       "Les fondations qui font vibrer les murs et les tripes. Discret sur scène, indispensable dans le son.",
-    photo: "/assets/antoine.jpeg",
+    photo: "/assets/tonio.jpeg",
     instagram: "https://www.instagram.com/kylir.music/",
   },
   {
