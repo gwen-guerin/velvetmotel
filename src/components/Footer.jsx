@@ -31,7 +31,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
           <img
-            src="/logoVelvetMotel.png"
+            src="/logoVelvetMotel.webp"
             alt="Velvet Motel"
             className="h-20 w-auto"
           />

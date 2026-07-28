@@ -60,7 +60,7 @@ function Hero() {
         transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
       >
         <img
-          src="/logoVelvetMotel.png"
+          src="/logoVelvetMotel.webp"
           alt="Velvet Motel"
           className="w-auto"
           style={{ maxWidth: "clamp(320px, 80vw, 720px)" }}

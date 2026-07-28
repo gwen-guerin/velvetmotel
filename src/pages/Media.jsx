@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { videos } from "../data/videos";
-import { photos } from "../data/photos";
+import { getRandomPhotos } from "../data/photos";
 
 // ─── Helper reveal ────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }) {
@@ -324,6 +324,10 @@ function PhotoItem({ photo, index }) {
 }
 
 function PhotosSection() {
+  // Tirage figé pour la durée de l'affichage : sans ça, chaque re-render
+  // reshufflerait la grille sous les yeux du visiteur.
+  const [photos] = useState(() => getRandomPhotos());
+
   return (
     <section className="py-12 sm:py-24 px-6 bg-motel-dark">
       <div className="max-w-6xl mx-auto">

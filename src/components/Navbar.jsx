@@ -67,7 +67,7 @@ export default function Navbar() {
           aria-label="Velvet Motel — accueil"
         >
           <img
-            src="/logoVelvetMotel.png"
+            src="/logoVelvetMotel.webp"
             alt="Velvet Motel"
             className="h-20 w-auto"
           />
