@@ -17,13 +17,14 @@
 export const dates = [
   // ── À VENIR ────────────────────────────────────────────────────────────────
   {
-    id: 7,
-    date: "2026-07-21",
-    time: "19H00",
-    city: "Ébo - Annecy",
+    id: 11,
+    date: "2026-08-01",
+    time: "18H00",
+    city: "Les Halles du Haras -  Annecy",
+    venue: "Fête du Lac",
     type: "free",
-    lat: 45.90564,
-    lng: 6.153316,
+    lat: 45.9047,
+    lng: 6.127,
   },
   {
     id: 8,
@@ -122,5 +123,14 @@ export const dates = [
     type: "free",
     lat: 45.905,
     lng: 6.147,
+  },
+  {
+    id: 7,
+    date: "2026-07-21",
+    time: "19H00",
+    city: "Ébo - Annecy",
+    type: "free",
+    lat: 45.90564,
+    lng: 6.153316,
   },
 ];
