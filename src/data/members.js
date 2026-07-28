@@ -20,7 +20,7 @@ export const members = [
     instrument: "Basse",
     description:
       "Les fondations qui font vibrer les murs et les tripes. Discret sur scène, indispensable dans le son.",
-    photo: "/assets/tonio.jpeg",
+    photo: "/assets/tonio2.jpg",
     instagram: "https://www.instagram.com/kylir.music/",
   },
   {
