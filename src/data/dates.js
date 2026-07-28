@@ -20,7 +20,7 @@ export const dates = [
     id: 11,
     date: "2026-08-01",
     time: "18H00",
-    city: "Les Halles du Haras -  Annecy",
+    city: "Les Halles du Haras - Annecy",
     venue: "Fête du Lac",
     type: "free",
     lat: 45.9047,
