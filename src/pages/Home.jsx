@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { members } from "../data/members";
 import { dates } from "../data/dates";
+import { config, booking } from "../data/config";
 
 // ─── Helper : reveal au scroll ────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }) {
@@ -121,7 +122,7 @@ function Hero() {
         className="relative z-20 mt-12"
       >
         <a
-          href="#qui-on-est"
+          href="#booking"
           className="inline-block font-condensed tracking-[0.35em] text-base text-neon-red border border-neon-red/70 px-10 py-3 transition-all duration-300 hover:bg-neon-red/[0.08] hover:border-neon-red hover:shadow-[0_0_18px_rgba(255,36,66,0.22)]"
         >
           DÉCOUVRIR
@@ -153,6 +154,85 @@ function Hero() {
           />
         </svg>
       </motion.div>
+    </section>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// BOOKING — « on joue chez vous »
+// ⬇ Le contenu de cette section s'édite dans src/data/config.js (objet booking)
+// ════════════════════════════════════════════════════════════════════════════
+function BookingSection() {
+  const mailto = `mailto:${config.email}?subject=${encodeURIComponent(
+    booking.mailSubject
+  )}`;
+
+  return (
+    <section id="booking" className="relative py-12 sm:py-24 px-6 bg-motel-black">
+      <div className="max-w-5xl mx-auto">
+        <Reveal>
+          <SectionHeader eyebrow="Booking" title="ON JOUE CHEZ VOUS" />
+        </Reveal>
+
+        {/* Chapô */}
+        <Reveal delay={0.1}>
+          <p className="font-body text-base sm:text-lg text-cream/55 leading-relaxed max-w-2xl mx-auto text-center -mt-6">
+            {booking.intro}
+          </p>
+        </Reveal>
+
+        {/* Les 4 infos clés */}
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.06]">
+          {booking.points.map((point, i) => (
+            <Reveal key={point.label} delay={0.15 + i * 0.08}>
+              <div className="group h-full bg-motel-black hover:bg-neon-red/[0.03] transition-colors duration-300 p-7 sm:p-8">
+                <p className="font-condensed text-[0.7rem] tracking-[0.4em] text-neon-red/50 uppercase">
+                  {point.label}
+                </p>
+                <p
+                  className="font-condensed text-[clamp(1.6rem,3.5vw,2.1rem)] tracking-wider text-cream leading-none mt-2 group-hover:text-neon-pink transition-colors duration-300"
+                  style={{ textShadow: "0 0 14px rgba(255,36,66,0.12)" }}
+                >
+                  {point.value}
+                </p>
+                <p className="font-body text-sm text-cream/45 leading-relaxed mt-3.5">
+                  {point.detail}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Contact */}
+        <Reveal delay={0.5}>
+          <div className="mt-14 text-center">
+            <p className="font-condensed text-sm tracking-[0.3em] text-cream/35 uppercase">
+              Une date en tête ?
+            </p>
+
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href={mailto}
+                className="w-full sm:w-auto font-condensed tracking-[0.3em] text-base bg-neon-red text-motel-black px-10 py-3.5 transition-all duration-300 hover:bg-neon-pink hover:shadow-[0_0_22px_rgba(255,36,66,0.3)]"
+              >
+                NOUS ÉCRIRE
+              </a>
+              <a
+                href={config.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto font-condensed tracking-[0.3em] text-base text-neon-red border border-neon-red/70 px-10 py-3.5 transition-all duration-300 hover:bg-neon-red/[0.08] hover:border-neon-red hover:shadow-[0_0_18px_rgba(255,36,66,0.22)]"
+              >
+                INSTAGRAM
+              </a>
+            </div>
+
+            <p className="font-body text-sm text-cream/30 mt-6">
+              {config.email} · {config.instagramHandle}
+            </p>
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }
@@ -435,6 +515,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <BookingSection />
       <MembersSection />
       <InfluencesSection />
       <DatesPreview />
