@@ -36,12 +36,42 @@ function SectionHeader({ eyebrow, title }) {
 // ════════════════════════════════════════════════════════════════════════════
 // HERO
 // ════════════════════════════════════════════════════════════════════════════
+
+// ⬇ Chronologie de l'intro, en secondes. Le logo grossit sur fond noir, marque
+// une pause, puis rétrécit jusqu'à disparaître pendant que la photo de fond
+// se révèle à sa place.
+const INTRO = {
+  grow: 1.0, // fin de la montée du logo
+  hold: 1.1, // fin de la pause
+  gone: 1.4, // logo totalement disparu / photo installée
+};
+
 function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-      {/* Background noir + halo rouge subtil */}
+      {/* Fond noir de départ */}
       <div className="absolute inset-0 z-0 bg-motel-black" />
 
+      {/* Photo de fond, révélée quand le logo s'efface */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: INTRO.hold,
+          duration: INTRO.gone - INTRO.hold + 0.4,
+          ease: "easeOut",
+        }}
+      >
+        <img
+          src="/assets/bg-velvet-field.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center"
+        />
+        {/* Filtre noir 50 % pour ternir la photo */}
+        <div className="absolute inset-0 bg-black/50" />
+      </motion.div>
 
       {/* Halo ambiant centré (boosted légèrement) */}
       <div
@@ -52,12 +82,17 @@ function Hero() {
         }}
       />
 
-      {/* Logo image */}
+      {/* Logo image — positionné en absolu pour ne pas laisser de vide dans la
+          colonne une fois qu'il a disparu */}
       <motion.div
-        className="relative z-20 select-none flex items-center justify-center "
+        className="absolute z-20 select-none pointer-events-none flex items-center justify-center"
         initial={{ opacity: 0, scale: 0.78 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ opacity: [0, 1, 1, 0], scale: [0.78, 1, 1, 0.3] }}
+        transition={{
+          duration: INTRO.gone,
+          times: [0, INTRO.grow / INTRO.gone, INTRO.hold / INTRO.gone, 1],
+          ease: [[0.22, 1, 0.36, 1], "linear", [0.6, 0, 0.85, 0.2]],
+        }}
       >
         <img
           src="/logoVelvetMotel.webp"
@@ -67,14 +102,13 @@ function Hero() {
         />
       </motion.div>
 
-
       {/* Sous-titre */}
       <motion.p
-        className="relative z-20 font-condensed tracking-[0.45em] text-cream/40 mt-4"
+        className="relative z-20 font-condensed tracking-[0.45em] text-cream/40"
         style={{ fontSize: "clamp(0.85rem, 2vw, 1.1rem)" }}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.9 }}
+        transition={{ delay: INTRO.gone - 0.35, duration: 0.9 }}
       >
         ROCK ALTERNATIF
       </motion.p>
@@ -83,7 +117,7 @@ function Hero() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0, duration: 0.9 }}
+        transition={{ delay: INTRO.gone - 0.1, duration: 0.9 }}
         className="relative z-20 mt-12"
       >
         <a
@@ -99,7 +133,7 @@ function Hero() {
         className="absolute bottom-8 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-scroll-bounce"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
+        transition={{ delay: INTRO.gone + 0.3, duration: 0.8 }}
         aria-hidden="true"
       >
         <div
