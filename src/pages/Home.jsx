@@ -164,11 +164,14 @@ function Hero() {
 // ════════════════════════════════════════════════════════════════════════════
 function BookingSection() {
   const mailto = `mailto:${config.email}?subject=${encodeURIComponent(
-    booking.mailSubject
+    booking.mailSubject,
   )}`;
 
   return (
-    <section id="booking" className="relative py-12 sm:py-24 px-6 bg-motel-black">
+    <section
+      id="booking"
+      className="relative py-12 sm:py-24 px-6 bg-motel-black"
+    >
       <div className="max-w-5xl mx-auto">
         <Reveal>
           <SectionHeader eyebrow="Booking" title="ON JOUE CHEZ VOUS" />
