@@ -294,9 +294,9 @@ function DatesMap({ upcoming, selection, markerRefs }) {
           >
             <MapFlyTo center={flyCenter} />
             <TileLayer
-              attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-              subdomains="abcd"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              className="vm-dark-tiles"
               maxZoom={19}
             />
             {mappable.map((c) => (
