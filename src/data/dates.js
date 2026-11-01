@@ -15,7 +15,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const dates = [
-  // ── À VENIR ────────────────────────────────────────────────────────────────
   {
     id: 11,
     date: "2026-08-01",
@@ -55,6 +54,16 @@ export const dates = [
     type: "free",
     lat: 45.905,
     lng: 6.147,
+  },
+  {
+    id: 12,
+    date: "2026-09-19",
+    time: "23H00",
+    city: "La Coloc Pub - Annecy",
+    venue: "La Coloc Flash Tattoo",
+    type: "free",
+    lat: 45.9,
+    lng: 6.1167,
   },
 
   // ── PASSÉES — remplacez par vos vraies dates ────────────────────────────────
